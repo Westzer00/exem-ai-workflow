@@ -95,3 +95,29 @@ def test_bindings_resolved_once_and_inputs_copied():
     result = LoopEngine(make_config(2)).execute(upstream, nodes)
     assert upstream == {"x": {"items": [1]}}
     assert result.rounds[1]["value"]["items"] == [1, 100]
+
+
+def test_round_count_rejects_non_integer():
+    with pytest.raises(InvalidConfiguration):
+        make_config("5")
+    with pytest.raises(InvalidConfiguration):
+        make_config(True)
+
+
+def test_invalid_input_binding_has_clear_error():
+    def nodes(ctx):
+        return {"writer": {"result": 1}, "checker": {"done": True}}
+    with pytest.raises(BindingResolutionError):
+        LoopEngine(make_config()).execute({}, nodes)
+
+
+def test_failed_node_does_not_return_partial_result():
+    observed = []
+    def nodes(ctx):
+        observed.append(ctx.number)
+        if ctx.number == 2:
+            raise RuntimeError("upstream model failed")
+        return {"writer": {"result": ctx.number}, "checker": {"done": False}}
+    with pytest.raises(RuntimeError, match="upstream model failed"):
+        LoopEngine(make_config(3)).execute({"x": 1}, nodes)
+    assert observed == [1, 2]

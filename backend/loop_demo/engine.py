@@ -24,7 +24,7 @@ class LoopConfig:
     stop: StopRule | None = None
 
     def __post_init__(self) -> None:
-        if isinstance(self.max_rounds, bool) or not 1 <= self.max_rounds <= 50:
+        if isinstance(self.max_rounds, bool) or not isinstance(self.max_rounds, int) or not 1 <= self.max_rounds <= 50:
             raise InvalidConfiguration("max_rounds must be in 1..50")
         if not self.output_bindings:
             raise InvalidConfiguration("At least one output binding is needed")
