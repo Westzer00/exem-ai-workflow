@@ -37,7 +37,14 @@
 
 ## 3. PHISIGHT 화면 개발
 
-파일 등록부터 분석 요청·결과 검수까지의 사용자 흐름을 설계하고 상세 UI 구현에 공동 참여했습니다. 실제 최종 발표 자료에 포함된 서비스 화면은 [UI 설명 문서](docs/ui-participation.md)에서 확인할 수 있습니다. 실제 엔진의 단계별 진행률이나 제품 전체의 인증·배포 완료를 주장하지 않습니다.
+파일 등록부터 분석 요청·결과 검수까지의 사용자 흐름을 설계하고 상세 UI 구현에 공동 참여했습니다. 팀 최종 발표에서 사용한 PHISIGHT 화면을 아래에 소개합니다.
+
+| 데이터 현황 및 운영 UI | 사람 검토(HITL) 화면 |
+|:---:|:---:|
+| ![PHISIGHT 최종 발표 UI 개요](assets/phisight-ui-overview.webp) | ![PHISIGHT 검수 화면](assets/phisight-human-review.webp) |
+| [화면 개요](docs/ui-participation.md) | 검수할 결과·판정 근거 확인 |
+
+*최종 발표 PDF 37·40페이지에서 추출한 미리보기로, 세부 사례 문장은 가렸습니다. 실제 엔진의 단계별 진행률이나 제품 전체의 인증·배포 완료를 주장하지 않습니다.*
 
 [담당 영역과 당시 구현·미검증 항목](docs/ui-participation.md)
 
@@ -70,7 +77,10 @@ exem-ai-workflow/
 │   ├── tests/              # 정상·예외·HTTP 검증
 │   └── server.py           # 공개용 로컬 HTTP 서버
 ├── ui-demo/                # PHISIGHT 원본이 아닌 LOOP 설명용 화면
-├── assets/                 # 공개 가능한 발표 화면 (원천 자료 미포함)
+├── assets/
+│   ├── phisight-ui-overview.webp
+│   ├── phisight-human-review.webp
+│   └── README.md           # 이미지 출처·공개 범위
 ├── docs/
 │   ├── development-review.md
 │   ├── loop-improvement.md
