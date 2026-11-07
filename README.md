@@ -2,9 +2,11 @@
 
 **2026.07~2026.10 · EXEM × ASAC · 5인 팀 · 공공기관 협업 과제**
 
-공공기관 피싱 공동대응 지원을 위한 기업연계 프로젝트. 보이스피싱·스미싱 사례의 분석·검색·시나리오 생성·검증 워크플로우와 **PHISIGHT 운영 UI**를 5인 팀으로 개발했습니다.
+공공기관의 피싱 공동대응을 지원하기 위해 보이스피싱·스미싱 사례를 검색·분류·생성·검수하는 워크플로우와 PHISIGHT 사용자 화면을 팀으로 구현했습니다. **화면 구현과 실제 분석 엔진 연동 검증은 별개**이며, 당시 엔진 연결 검증은 인증서 문제로 완료하지 못했습니다. [당시 UI 구현 상태](docs/ui-participation.md)에 상세히 기록했습니다.
 
-**개인 담당:** 기존 eXemble 플랫폼의 LOOP 입출력 구조 개선, Python 실행 로직 수정 및 테스트. 사내 PR·코드 리뷰 진행. 주요 동작을 확인할 수 있는 [독립 실행 코드](backend/loop_demo/engine.py)도 포함했습니다.
+**개인 담당:** 기존 eXemble의 LOOP 입력·출력 바인딩과 회차별 결과 전달 로직 개선, Python 코드·테스트 작성, 사내 PR 및 리뷰 대응. 사내 제품의 운영 배포나 설정 UI 연동까지 완료했다고 주장하지 않습니다.
+
+**공개 코드의 범위:** [LOOP 엔진](backend/loop_demo/engine.py)·[HTTP API](backend/server.py)·[브라우저 화면](ui-demo/index.html)은 회사 원본을 공개한 것이 아니라 핵심 데이터 전달 동작을 합성 노드로 다시 구현한 **별도 예제**입니다. 해당 예제의 테스트 성공은 사내 제품의 통합 테스트와 구분합니다.
 
 ## 담당 업무
 
@@ -37,7 +39,7 @@
 
 파일 등록부터 분석 요청·결과 검수까지의 사용자 흐름을 설계하고 상세 UI 구현에 공동 참여했습니다. 팀 최종 발표에서 사용한 PHISIGHT 화면을 아래에 소개합니다.
 
-| 데이터 현황 및 운영 UI | 사람 검토(HITL) 화면 |
+| 팀 시연 화면: 데이터 현황 | 팀 시연 화면: 사람 검토(HITL) |
 |:---:|:---:|
 | ![PHISIGHT 최종 발표 UI 개요](assets/phisight-ui-overview.webp) | ![PHISIGHT 검수 화면](assets/phisight-human-review.webp) |
 | [화면 개요](docs/ui-participation.md) | 검수할 결과·판정 근거 확인 |
@@ -57,7 +59,7 @@ python -m backend.examples.run_demo
 python -m backend.server --port 8080
 ```
 
-브라우저에서 http://127.0.0.1:8080 을 열면 합성 데이터 기반 웹 예제가 실행됩니다.
+브라우저에서 http://127.0.0.1:8080 을 열면 합성 데이터 기반 웹 예제가 실행됩니다. [별도 브라우저 E2E 테스트](e2e/test_browser_ui.py)에서는 폼 입력부터 로컬 API 결과 표시·오류 처리까지 확인합니다.
 
 - [LOOP 코드](backend/loop_demo/engine.py)
 - [JSON 경로 처리](backend/loop_demo/bindings.py)
@@ -74,6 +76,7 @@ exem-ai-workflow/
 │   ├── examples/           # 합성 입력·실행 예시
 │   ├── tests/              # 정상·예외·HTTP 검증
 │   └── server.py           # 공개용 로컬 HTTP 서버
+├── e2e/                    # 독립 웹 예제의 Chromium 브라우저 검증
 ├── ui-demo/                # PHISIGHT 원본이 아닌 LOOP 설명용 화면
 ├── assets/
 │   ├── phisight-ui-overview.webp
