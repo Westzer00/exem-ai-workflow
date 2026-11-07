@@ -51,3 +51,42 @@ def test_http_rejects_invalid_payload():
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+def test_http_serves_ui_and_rejects_unknown_paths():
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base = f"http://127.0.0.1:{server.server_port}"
+        for path, text in [("/", "LOOP"), ("/app.js", "render"), ("/styles.css", "body")]:
+            with urllib.request.urlopen(base + path) as response:
+                assert response.status == 200
+                assert text.encode() in response.read()
+        for path in ("/unknown", "/../README.md"):
+            try:
+                urllib.request.urlopen(base + path)
+                assert False, "expected 404"
+            except urllib.error.HTTPError as exc:
+                assert exc.code == 404
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
+
+
+def test_http_rejects_non_integer_rounds():
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base = f"http://127.0.0.1:{server.server_port}"
+        for invalid in ("5", True, 0, 11):
+            try:
+                send(base + "/api/run", {"topic": "example", "max_rounds": invalid})
+                assert False, "expected HTTP 400"
+            except urllib.error.HTTPError as exc:
+                assert exc.code == 400
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
