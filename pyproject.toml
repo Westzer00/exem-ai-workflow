@@ -1,0 +1,11 @@
+[project]
+name = "exem-ai-workflow"
+version = "0.1.0"
+description = "Independent LOOP input/output binding demonstration"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
