@@ -21,7 +21,7 @@ jobs:
       - name: Python syntax
         run: python -m compileall -q backend
       - name: LOOP and HTTP tests
-        run: python -m pytest -q backend/tests/ --cov=backend --cov-report=term-missing
+        run: python -m pytest -q backend/tests/ --cov=backend.loop_demo --cov=backend.examples --cov=backend.server --cov-report=term-missing
       - name: Run independent LOOP
         run: python -m backend.examples.run_demo
       - name: Browser JavaScript syntax
